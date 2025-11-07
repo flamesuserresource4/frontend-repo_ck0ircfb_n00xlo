@@ -24,7 +24,7 @@ export default function HeroSection({ isNight, onToggleTheme, isMusicOn, onToggl
   const containerRef = useRef(null);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
-  const rotate = useTransform(x, [-200, 200], [-5, 5]);
+  const rotate = useTransform(x, [-200, 200], [-4, 4]);
 
   useEffect(() => {
     const handler = (e) => {
@@ -42,58 +42,107 @@ export default function HeroSection({ isNight, onToggleTheme, isMusicOn, onToggl
   return (
     <section
       ref={containerRef}
-      className={`relative w-full min-h-[90vh] overflow-hidden flex items-center justify-center ${
+      className={`relative w-full min-h-[100vh] overflow-hidden flex items-center justify-center ${
         isNight
-          ? 'bg-gradient-to-b from-[#0b1020] via-[#11163a] to-[#0b1020]'
-          : 'bg-gradient-to-b from-[#fff7f2] via-[#ffe9e0] to-[#fff7f2]'
+          ? 'bg-[#0b1020]'
+          : 'bg-[#f8f4ff]'
       }`}
     >
+      {/* Full-width Spline cover background */}
+      <div className="absolute inset-0">
+        <Spline
+          scene="https://prod.spline.design/fTzRQ8pMbm1-BzvF/scene.splinecode"
+          style={{ width: '100%', height: '100%' }}
+        />
+      </div>
+
+      {/* Pastel gradient overlay (non-blocking) */}
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_60%_at_20%_20%,rgba(255,214,196,0.45),transparent),radial-gradient(50%_50%_at_80%_30%,rgba(186,230,213,0.35),transparent),radial-gradient(40%_40%_at_50%_80%,rgba(252,231,243,0.35),transparent)]" />
+
       {/* Controls */}
       <div className="absolute top-4 right-4 z-30 flex items-center gap-2">
         <button
           onClick={onToggleTheme}
-          className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium shadow/20 shadow-rose-200 hover:shadow-rose-300 transition border border-white/40 backdrop-blur bg-white/60 text-rose-700"
+          className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium shadow/20 shadow-rose-200 hover:shadow-rose-300 transition border border-white/40 backdrop-blur bg-white/70 text-rose-700"
         >
           {isNight ? <Sun size={18} /> : <Moon size={18} />} {isNight ? 'Play Mode' : 'Sleep Mode'}
         </button>
         <button
           onClick={onToggleMusic}
-          className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium shadow/20 shadow-emerald-200 hover:shadow-emerald-300 transition border border-white/40 backdrop-blur bg-white/60 text-emerald-700"
+          className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium shadow/20 shadow-emerald-200 hover:shadow-emerald-300 transition border border-white/40 backdrop-blur bg-white/70 text-emerald-700"
         >
           {isMusicOn ? <Music size={18} /> : <VolumeX size={18} />} {isMusicOn ? 'Music On' : 'Music Off'}
         </button>
       </div>
 
-      {/* Decorative gradient overlay to warm up colors */}
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,183,178,0.35),transparent_40%),radial-gradient(circle_at_80%_30%,rgba(186,230,213,0.35),transparent_40%)] z-10" />
-
-      {/* Spline Scene */}
-      <div className="relative w-full h-[70vh] md:h-[80vh] max-w-6xl z-20">
-        <motion.div style={{ rotate }} className="w-full h-full rounded-3xl overflow-hidden shadow-xl">
-          <Spline
-            scene="https://prod.spline.design/vZX5NNlylxke-6DM/scene.splinecode"
-            style={{ width: '100%', height: '100%' }}
-          />
-        </motion.div>
-      </div>
-
-      {/* Headline */}
-      <div className="absolute inset-x-0 bottom-6 md:bottom-10 z-30 flex flex-col items-center px-4">
-        <motion.h1
-          className="text-center font-extrabold leading-tight text-3xl sm:text-4xl md:text-5xl lg:text-6xl"
+      {/* Content */}
+      <div className="relative z-30 w-full max-w-6xl px-6 grid grid-cols-1 lg:grid-cols-2 items-center gap-8">
+        {/* Profile card */}
+        <motion.div
+          className="relative bg-white/70 backdrop-blur-xl rounded-3xl p-6 md:p-8 border border-white/60 shadow-xl"
           initial={{ y: 30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.8, ease: 'easeOut' }}
-          style={{
-            color: isNight ? '#E7E2FF' : '#6b3d2e',
-            textShadow: isNight ? '0 10px 30px rgba(120, 97, 255, 0.35)' : '0 10px 30px rgba(255, 176, 170, 0.5)'
-          }}
+          style={{ rotate }}
         >
-          Hi! I’m TimTim 🐹 — The Cutest Guinea Pig on the Web!
-        </motion.h1>
-        <p className={`mt-3 text-center max-w-2xl ${isNight ? 'text-indigo-100/90' : 'text-rose-800/80'}`}>
-          Welcome to my cozy corner. Scroll to see snacks, adventures, and squeaks!
-        </p>
+          <div className="flex items-center gap-5">
+            <div className="relative">
+              <span className="absolute -inset-1 rounded-full bg-gradient-to-tr from-pink-200 via-rose-200 to-amber-200 blur-xl opacity-70" aria-hidden />
+              <img
+                src="https://auvkjcgnirjxetnrnket.supabase.co/storage/v1/object/public/TimTim/WhatsApp%20Image%202025-11-07%20at%2019.57.07_7f4f3b06.jpg"
+                alt="TimTim the Guinea Pig"
+                className="relative w-28 h-28 md:w-36 md:h-36 rounded-2xl object-cover border-4 border-white shadow-lg"
+                loading="eager"
+              />
+              <motion.span
+                className="absolute -bottom-3 -right-3 text-3xl"
+                animate={{ y: [0, -4, 0] }}
+                transition={{ duration: 2.2, repeat: Infinity }}
+                aria-hidden
+              >
+                🥕
+              </motion.span>
+            </div>
+            <div>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-100 text-rose-700 text-sm font-semibold">TimTim • Guinea Pig Star</div>
+              <h1 className="mt-3 text-3xl md:text-5xl font-extrabold text-rose-900 drop-shadow-sm">
+                Hi! I’m TimTim 🐹
+              </h1>
+              <p className="mt-2 text-rose-700/80 max-w-prose">
+                The cutest guinea pig on the web! I squeak for snacks, explore fluffy worlds, and nap like a pro.
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-6 grid grid-cols-3 gap-3 text-center">
+            <div className="rounded-2xl bg-emerald-50 text-emerald-700 px-3 py-3 font-semibold">Snacks ❤</div>
+            <div className="rounded-2xl bg-amber-50 text-amber-700 px-3 py-3 font-semibold">Naps 😴</div>
+            <div className="rounded-2xl bg-pink-50 text-pink-700 px-3 py-3 font-semibold">Adventures ✨</div>
+          </div>
+        </motion.div>
+
+        {/* Mascot tagline */}
+        <div className="relative">
+          <motion.div
+            className="bg-white/70 backdrop-blur-xl rounded-3xl p-6 md:p-8 border border-white/60 shadow-xl"
+            initial={{ y: 30, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.9, ease: 'easeOut', delay: 0.1 }}
+          >
+            <p className="text-lg md:text-xl text-rose-800/90">
+              Tagline:
+              <span className="ml-2 font-extrabold text-rose-900">“The Cutest Guinea Pig on the Web!”</span>
+            </p>
+            <p className="mt-3 text-rose-700/80">
+              Move your mouse around — the scene reacts! Scroll down for snacks, stories, and Shorts.
+            </p>
+            <div className="mt-5 flex flex-wrap gap-3">
+              <span className="px-4 py-2 rounded-full bg-mint-100 text-emerald-700 font-semibold">Minty Fresh</span>
+              <span className="px-4 py-2 rounded-full bg-peach-100 text-rose-700 font-semibold">Peachy Cozy</span>
+              <span className="px-4 py-2 rounded-full bg-cream-100 text-amber-700 font-semibold">Creamy Cute</span>
+            </div>
+          </motion.div>
+        </div>
       </div>
 
       {/* Floating goodies */}
